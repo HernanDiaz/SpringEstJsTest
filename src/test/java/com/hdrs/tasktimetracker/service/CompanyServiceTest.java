@@ -76,10 +76,10 @@ logger.debug("\nFINISHED testFindAll()\n");
         Result<List<Company>> ar1
                 = companyService.findAll(TEST_USERNAME);
         Company c = ar1.getData().get(0);
-        companyService.store(c.getCompany(), NEW_NAME,
+        companyService.store(c.getIdCompany(), NEW_NAME,
                 TEST_USERNAME);
         Result<Company> ar2
-                = companyService.find(c.getCompany(), TEST_USERNAME);
+                = companyService.find(c.getIdCompany(), TEST_USERNAME);
         assertTrue(ar2.getData().
                 getCompanyName().equals(NEW_NAME));
         logger.debug("\nFINISHED testMerge()\n");
@@ -92,9 +92,9 @@ logger.debug("\nFINISHED testFindAll()\n");
                 = companyService.findAll(TEST_USERNAME);
         Company c = ar1.getData().get(0);
         Result<Company> ar
-                = companyService.remove(c.getCompany(), TEST_USERNAME);
+                = companyService.remove(c.getIdCompany(), TEST_USERNAME);
         Result<Company> ar2
-                = companyService.find(c.getCompany(), TEST_USERNAME);
+                = companyService.find(c.getIdCompany(), TEST_USERNAME);
 // should fail as projects are assigned
         assertTrue(!ar.isSuccess());
 // finder still works
@@ -107,11 +107,11 @@ c = ar2.getData();
         }
         c.getProjects().clear();
         logger.debug("\ntestRemove() - removed all projects\n");
-        ar = companyService.remove(c.getCompany(),
+        ar = companyService.remove(c.getIdCompany(),
                 TEST_USERNAME);
 // remove should have succeeded
         assertTrue(ar.isSuccess());
-        ar2 = companyService.find(c.getCompany(),
+        ar2 = companyService.find(c.getIdCompany(),
                 TEST_USERNAME);
 // should not have been found
         assertTrue(ar2.getData() == null);

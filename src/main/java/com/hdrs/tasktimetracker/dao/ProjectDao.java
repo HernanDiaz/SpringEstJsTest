@@ -1,18 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hdrs.tasktimetracker.dao;
+
 
 import com.hdrs.tasktimetracker.domain.Project;
 import java.util.List;
 
-/**
- *
- * @author Hernan
- */
-public interface ProjectDao extends GenericDao<Project, Integer> {
+public interface ProjectDao extends GenericDao<Project, Integer>{
 
     public List<Project> findAll();
+
 }

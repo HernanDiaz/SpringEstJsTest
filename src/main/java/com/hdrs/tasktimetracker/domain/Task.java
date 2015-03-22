@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hdrs.tasktimetracker.domain;
 
-import java.io.Serializable;
+import java.util.Objects;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -21,10 +18,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Hernan
- */
 @Entity
 @Table(name = "ttt_task")
 @NamedQueries({
@@ -32,7 +25,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Task.findByIdTask", query = "SELECT t FROM Task t WHERE t.idTask = :idTask"),
     @NamedQuery(name = "Task.findByTaskName", query = "SELECT t FROM Task t WHERE t.taskName = :taskName")})
 public class Task extends AbstractEntity implements EntityItem<Integer> {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +36,6 @@ public class Task extends AbstractEntity implements EntityItem<Integer> {
     @Size(min = 1, max = 200)
     @Column(name = "task_name")
     private String taskName;
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "idTask")
-    //private List<TaskLog> taskLogList;
     @JoinColumn(name = "id_project", referencedColumnName = "id_project")
     @ManyToOne(optional = false)
     private Project project;
@@ -60,11 +50,6 @@ public class Task extends AbstractEntity implements EntityItem<Integer> {
     public Task(Integer idTask, String taskName) {
         this.idTask = idTask;
         this.taskName = taskName;
-    }
-
-    @Override
-    public Integer getId() {
-        return idTask;
     }
 
     public Integer getIdTask() {
@@ -99,32 +84,38 @@ public class Task extends AbstractEntity implements EntityItem<Integer> {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Task)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Task other = (Task) object;
-        if ((this.idTask == null && other.idTask != null) || (this.idTask != null && !this.idTask.equals(other.idTask))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        return true;
+        final Task other = (Task) obj;
+        return Objects.equals(this.idTask, other.idTask);
     }
 
     @Override
     public String toString() {
         return "com.hdrs.tasktimetracker.domain.Task[ idTask=" + idTask + " ]";
-    }
+    }    
 
     @Override
-    public void addJson(JsonObjectBuilder builder) {
-        builder.add("idTask", idTask)
-                .add("taskName", taskName);
-        if (project != null) {
-            project.addJson(builder);
-            Company company = project.getCompany();
-            company.addJson(builder);
-        }
+    public Integer getId() {
+        return idTask;
     }
-
+    
+    @Override
+    public void addJson(JsonObjectBuilder builder) {
+        
+        builder .add("idTask", idTask)
+           .add("taskName", taskName);
+         
+        if(project != null){
+           project.addJson(builder);
+           
+           Company company = project.getCompany();
+           company.addJson(builder);
+        }        
+    }
 }

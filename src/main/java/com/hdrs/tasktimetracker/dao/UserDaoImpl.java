@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hdrs.tasktimetracker.dao;
 
 import com.hdrs.tasktimetracker.domain.User;
@@ -11,14 +6,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author Hernan
- */
 @Repository("userDao")
 @Transactional
-public class UserDaoImpl extends GenericDaoImpl<User, String>
-        implements UserDao {
+public class UserDaoImpl extends GenericDaoImpl<User, String> implements UserDao {
 
     public UserDaoImpl() {
         super(User.class);
@@ -34,39 +24,34 @@ public class UserDaoImpl extends GenericDaoImpl<User, String>
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public User findByUsernamePassword(String username, String password) {
-        List<User> users
-                = em.createNamedQuery("User.findByUsernamePassword")
+       
+        List<User> users = em.createNamedQuery("User.findByUsernamePassword")
                 .setParameter("username", username)
                 .setParameter("password", password)
                 .getResultList();
+        
         return (users.size() == 1 ? users.get(0) : null);
-    }
-
+    }    
+    
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    
-    /**
-     * Find a User with the username/password combination or return null if a
-     * valid user could not be found.
-     *
-     * @param username
-     * * @param password
-     * @return valid User object or null if not found.
-     */
     public User findByUsername(String username) {
-        List<User> users
-                = em.createNamedQuery("User.findByUsername")
+       
+        List<User> users = em.createNamedQuery("User.findByUsername")
                 .setParameter("username", username)
                 .getResultList();
+        
         return (users.size() == 1 ? users.get(0) : null);
-    }
-
+    }    
+    
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public User findByEmail(String email) {
+       
         List<User> users = em.createNamedQuery("User.findByEmail")
                 .setParameter("email", email)
                 .getResultList();
+        
         return (users.size() == 1 ? users.get(0) : null);
-    }
+    }    
 }

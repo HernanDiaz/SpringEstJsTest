@@ -9,23 +9,23 @@
             </pattern>
         </encoder>
     </appender>
-    <logger name="com.gieman.tttracker"
+    <logger name="com.hdrs.tasktimetracker"
         level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
-    <logger name="com.gieman.tttracker.dao"
+    <logger name="com.hdrs.tasktimetracker.dao"
         level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
-    <logger name="com.gieman.tttracker.domain"
+    <logger name="com.hdrs.tasktimetracker.domain"
         level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
-    <logger name="com.gieman.tttracker.service"
+    <logger name="com.hdrs.tasktimetracker.service"
         level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
-    <logger name="com.gieman.tttracker.web"
+    <logger name="com.hdrs.tasktimetracker.web"
         level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>

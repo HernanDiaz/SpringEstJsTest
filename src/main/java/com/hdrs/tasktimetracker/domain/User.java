@@ -1,30 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hdrs.tasktimetracker.domain;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.Objects;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Hernan
- */
 @Entity
 @Table(name = "ttt_user")
 @NamedQueries({
@@ -36,7 +26,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByAdminRole", query = "SELECT u FROM User u WHERE u.adminRole = :adminRole")})
-public class User extends AbstractEntity implements EntityItem<String> {
+public class User extends AbstractEntity implements EntityItem<String>{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,38 +35,29 @@ public class User extends AbstractEntity implements EntityItem<String> {
     @Size(min = 1, max = 10)
     @Column(name = "username")
     private String username;
-
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "first_name")
     private String firstName;
-
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "last_name")
     private String lastName;
-
-    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Invalid email")
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "email")
     private String email;
-
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "password")
     private String password;
-
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "admin_role")
     private Character adminRole;
-    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "username")
-    // private List<TaskLog> taskLogList;
 
     public User() {
     }
@@ -92,11 +73,6 @@ public class User extends AbstractEntity implements EntityItem<String> {
         this.email = email;
         this.password = password;
         this.adminRole = adminRole;
-    }
-
-    @Override
-    public String getId() {
-        return username;
     }
 
     public String getUsername() {
@@ -143,10 +119,6 @@ public class User extends AbstractEntity implements EntityItem<String> {
         return adminRole;
     }
 
-    public boolean isAdmin() {
-        return adminRole == null ? false : adminRole.equals('Y');
-    }
-
     public void setAdminRole(Character adminRole) {
         this.adminRole = adminRole;
     }
@@ -159,16 +131,15 @@ public class User extends AbstractEntity implements EntityItem<String> {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        User other = (User) object;
-        if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        return true;
+        final User other = (User) obj;
+        return Objects.equals(this.username, other.username);
     }
 
     @Override
@@ -177,7 +148,17 @@ public class User extends AbstractEntity implements EntityItem<String> {
     }
 
     @Override
+    public String getId() {
+        return username;
+    }
+
+    public boolean isAdmin() {
+        return adminRole == null ? false : adminRole.equals('Y');
+    }
+
+    @Override
     public void addJson(JsonObjectBuilder builder) {
+                
         builder.add("username", username)
                 .add("firstName", firstName)
                 .add("lastName", lastName)

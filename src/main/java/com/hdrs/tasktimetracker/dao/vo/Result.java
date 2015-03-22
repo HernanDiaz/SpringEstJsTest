@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hdrs.tasktimetracker.dao.vo;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-/**
- *
- * @author Hernan
- */
 public class Result<T> implements Serializable {
 
     final private boolean success;
@@ -30,7 +21,7 @@ public class Result<T> implements Serializable {
         this.data = null;
         this.msg = msg;
     }
-
+    
     public boolean isSuccess() {
         return success;
     }
@@ -45,25 +36,38 @@ public class Result<T> implements Serializable {
 
     @Override
     public String toString() {
+
         StringBuilder sb = new StringBuilder("\"Result{\"");
         sb.append("success=").append(success);
         sb.append(", msg=").append(msg);
+
         sb.append(", data=");
-        if (data == null) {
+
+        if(data == null){
+
             sb.append("null");
-        } else if (data instanceof List) {
+
+        } else if(data instanceof List){
+
             List castList = (List) data;
-            if (castList.isEmpty()) {
+            if(castList.isEmpty()){
+
                 sb.append("empty list");
+
             } else {
                 Object firstItem = castList.get(0);
+
                 sb.append("List of ").append(firstItem.getClass());
             }
+
         } else {
             sb.append(data.toString());
         }
+
         sb.append("}");
+
         return sb.toString();
+
     }
 
     @Override

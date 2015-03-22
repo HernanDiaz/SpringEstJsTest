@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.hdrs.tasktimetracker.domain;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -23,24 +19,19 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Hernan
- */
 @Entity
 @Table(name = "ttt_company")
 @NamedQueries({
     @NamedQuery(name = "Company.findAll", query = "SELECT c FROM Company c ORDER BY c.companyName ASC "),
-    @NamedQuery(name = "Company.findByIdCompany", query = "SELECT c FROM Company c WHERE c.company = :idCompany"),
+    @NamedQuery(name = "Company.findByIdCompany", query = "SELECT c FROM Company c WHERE c.idCompany = :idCompany"),
     @NamedQuery(name = "Company.findByCompanyName", query = "SELECT c FROM Company c WHERE c.companyName = :companyName")})
 public class Company extends AbstractEntity implements EntityItem<Integer> {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_company")
-    private Integer company;
+    private Integer idCompany;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -53,25 +44,20 @@ public class Company extends AbstractEntity implements EntityItem<Integer> {
     }
 
     public Company(Integer idCompany) {
-        this.company = idCompany;
+        this.idCompany = idCompany;
     }
 
     public Company(Integer idCompany, String companyName) {
-        this.company = idCompany;
+        this.idCompany = idCompany;
         this.companyName = companyName;
     }
 
-    @Override
-    public Integer getId() {
-        return company;
+    public Integer getIdCompany() {
+        return idCompany;
     }
 
-    public Integer getCompany() {
-        return company;
-    }
-
-    public void setCompany(Integer company) {
-        this.company = company;
+    public void setIdCompany(Integer idCompany) {
+        this.idCompany = idCompany;
     }
 
     public String getCompanyName() {
@@ -93,7 +79,7 @@ public class Company extends AbstractEntity implements EntityItem<Integer> {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (company != null ? company.hashCode() : 0);
+        hash += (idCompany != null ? idCompany.hashCode() : 0);
         return hash;
     }
 
@@ -106,18 +92,24 @@ public class Company extends AbstractEntity implements EntityItem<Integer> {
             return false;
         }
         final Company other = (Company) obj;
-        return Objects.equals(this.company, other.company);
+        return Objects.equals(this.idCompany, other.idCompany);
     }
+
+
 
     @Override
     public String toString() {
-        return "com.hdrs.tasktimetracker.domain.Company[ idCompany=" + company + " ]";
+        return "com.hdrs.tasktimetracker.domain.Company[ idCompany=" + idCompany + " ]";
+    }
+
+    @Override
+    public Integer getId() {
+        return idCompany;
     }
 
     @Override
     public void addJson(JsonObjectBuilder builder) {
-        builder.add("idCompany", company)
-                .add("companyName", companyName);
+        builder.add("idCompany", idCompany)
+           .add("companyName", companyName);
     }
-
 }
